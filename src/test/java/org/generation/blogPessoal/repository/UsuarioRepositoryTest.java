@@ -21,35 +21,38 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 public class UsuarioRepositoryTest {
 
 	@Autowired
-	private UsuarioRepository repository;
+	private UsuarioRepository usuarioRepository;
 
 	@BeforeAll
-	void start() {
-		repository.deleteAll();
+    void start() {
 
-		repository.save(new Usuario("Lucas Oliveira", "lucass", "123456"));
-		repository.save(new Usuario("Savio de Oliveira", "savim25", "987654"));
-		repository.save(new Usuario("Paula Oliveira", "paulinha23", "987654"));
-	}
+        usuarioRepository.deleteAll();
 
-	@Test
-	@DisplayName("Teste FindByUsuario")
-	void searchUserReturnTrue() {
+        usuarioRepository.save(new Usuario(0L,"Lucas Oliveira", "FOTO", "lucass","5432213"));
 
-		Optional<Usuario> optional = repository.findByUsuario("lucass");
+        usuarioRepository.save(new Usuario(0L,"Savio Oliveira", "FOTO", "savio","1323443"));
 
-		assertTrue(optional.get().getUsuario().equals("lucass"));
-	}
+        usuarioRepository.save(new Usuario(0L,"Paula Oliveira", "FOTO", "paula","12331234"));
 
-	@Test
-	@DisplayName("Teste FindAll")
-	void searchAllReturnTreeUsers() {
+        usuarioRepository.save(new Usuario(0L,"Bruna Oliveira", "FOTO", "brunex","1323443"));
 
-		List<Usuario> list = repository.findAllByNomeContainingIgnoreCase("Oliveira");
+    }
+    @Test
+    @DisplayName("Retorna 1 usuario")
+    public void deveRetornarUmUsuario() {
 
-		assertEquals(3, list.size());
-		assertTrue(list.get(0).getNome().equals("Lucas Oliveira"));
-		assertTrue(list.get(1).getNome().equals("Savio de Oliveira"));
-		assertTrue(list.get(2).getNome().equals("Paula Oliveira"));
-	}
+        Optional<Usuario> usuario = usuarioRepository.findByUsuario("Oliveira");
+        assertTrue(usuario.get().getUsuario().equals("Oliveira"));
+
+    }
+    @Test
+    @DisplayName("Retorna 3 usuarios")
+    public void deveRetornarTresUsuarios() {
+        List<Usuario> listaDeUsuarios = usuarioRepository.findAllByNomeContainingIgnoreCase("Oliveira");
+
+        assertEquals(3, listaDeUsuarios.size());
+        assertTrue(listaDeUsuarios.get(0).getNome().equals("Lucas Oliveira"));
+        assertTrue(listaDeUsuarios.get(1).getNome().equals("Savio Oliveira"));
+        assertTrue(listaDeUsuarios.get(2).getNome().equals("Paula Oliveira"));
+    }
 }

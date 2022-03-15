@@ -10,7 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -22,22 +22,26 @@ public class Postagem {//adicionando os atributos
 
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 	
-	@NotNull
+	@NotBlank(message = "O atributo título é Obrigatório!")
 	@Size(min = 5, max = 100)
 	private String titulo;
 	
-	@NotNull
-	@Size(min = 10, max = 500)
+	@NotBlank(message = "O atributo texto é Obrigatório!")
+	@Size(min = 10, max = 1000, message = "O atributo texto deve conter no mínimo 10 e no máximo 1000 caracteres")
 	private String texto;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date dat = new java.sql.Date(System.currentTimeMillis());
+	private Date data = new java.sql.Date(System.currentTimeMillis());
 	
 	@ManyToOne
 	@JsonIgnoreProperties("postagem")
 	private Tema tema;
+	
+	@ManyToOne
+	@JsonIgnoreProperties("postagem")
+	private Usuario usuario;
 	
 	public long getId() {
 		return id;
@@ -58,10 +62,10 @@ public class Postagem {//adicionando os atributos
 		this.texto = texto;
 	}
 	public Date getDat() {
-		return dat;
+		return data;
 	}
 	public void setDat(Date dat) {
-		this.dat = dat;
+		this.data = dat;
 	}
 	public Tema getTema() {
 		return tema;
