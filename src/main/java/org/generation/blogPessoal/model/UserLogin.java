@@ -7,6 +7,8 @@ public class UserLogin {
 	private String nome;
 
 	private String usuario;
+	
+	private String tipo;
 
 	private String foto;
 
@@ -61,6 +63,14 @@ public class UserLogin {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+	
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
 	
 }
